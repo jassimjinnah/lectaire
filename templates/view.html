@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LectAIre</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}" />
+
+	<!-- Latest compiled and minified Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+<body>
+    
+    <h3>Step 1 - Record your voice</h3>
+    
+    <div style="max-width: 28em;">
+
+		<select id="encodingTypeSelect">
+		  <option value="wav">Waveform Audio (.wav)</option>
+		</select>
+		<div id="controls">
+			<button id="recordButton">Record</button>
+			<button id="stopButton" disabled>Stop</button>
+		</div>
+		<div id="formats"></div>
+		<pre>Log</pre>
+		<pre id="log"></pre>
+        <h3>Step 2 - Download your record </h3> 
+		
+		<ol id="recordingsList"></ol>
+	</div>
+
+    <div id="speechContainer">
+        
+        <h3>Step 3 - Upload your .wav file</h3> 
+
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="file"/>
+            
+
+            <h3>Step 4 - Convert audio to text </h3> 
+            <input type="submit" id="submitButton" value="Transcribe"/>
+        </form>
+
+        {% if transcript != "" %}
+        <br>
+        <form action="/generate_video" method="POST">
+            <label for="content">Transcribed Text</label><br>
+            <textarea id="content" name="content" rows="10" cols="50">{{ transcript }}</textarea><br>
+            <label for="checklist">Keywords</label><br>
+            <input type="text" id="checklist1" name="checklist1" placeholder="Keyword 1" value="Introduction"><br>
+            <input type="text" id="checklist2" name="checklist2" placeholder="Keyword 2"  value="Working"><br>
+            <input type="text" id="checklist3" name="checklist3" placeholder="Keyword 3" value="Advanatages"><br>
+            <input type="text" id="checklist4" name="checklist4" placeholder="Keyword 4" value="Applications"><br>
+            <input type="submit" value="Generate Video">
+        </form>
+            
+        {% endif %}
+        
+
+    </div>
+    <!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
+    <script src="{{ url_for('static', filename='js/WebAudioRecorder.min.js') }}" ></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}" ></script>
+</body>
+</html>

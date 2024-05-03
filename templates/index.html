@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Generation</title>
+</head>
+<body>
+    <h1>Video Generation</h1>
+    {% if error %}
+        <div style="color: red;">{{ error }}</div>
+    {% endif %}
+    <form action="/generate_video" method="POST">
+        <label for="content">Enter Text Content:</label><br>
+        <textarea id="content" name="content" rows="10" cols="50"></textarea><br>
+        <input type="submit" value="Generate Video">
+    </form>
+    <div id="video-container" style="display: none;">
+        <h2>Generated Video</h2>
+        <video controls autoplay>
+            <source src="/video" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</body>
+</html>

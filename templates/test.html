@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Content</title>
+    <style>
+        .image-container {
+            width: 500px; /* Set the width of the container */
+            height: 500px; /* Set the height of the container */
+            overflow: hidden; /* Hide overflow to prevent images from overflowing */
+            position: relative; /* Set position to relative */
+            border: 2px solid black; /* Add a border for visualization */
+        }
+        .image-container img {
+            width: 100%; /* Make the image fill the container */
+            height: auto; /* Maintain aspect ratio */
+            display: none; /* Hide all images initially */
+            position: absolute; /* Set position to absolute */
+            top: 0; /* Position from top */
+            left: 0; /* Position from left */
+        }
+    </style>
+</head>
+<body>
+    <h1>Generated Content</h1>
+    <div class="image-container">
+        {% for i in range(num_images) %}
+            <div>
+                <img src="{{ url_for('serve_video', filename='image_' + (i + 1)|string + '.jpg') }}" alt="Image {{ i+1 }}">
+            </div>
+        {% endfor %}
+    </div>
+        
+    </div>
+    <button id="pauseButton">Pause</button>
+    <button id="prevButton">Previous</button>
+    <button id="nextButton">Next</button>
+    <!-- Audio player -->
+    <audio controls>
+        <!-- Replace 'welcome.mp3' with the name of your audio file -->
+        <source src="../welcome.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <div id="subtitles">
+        <!-- Add Tamil translation as <p> elements -->
+        <p data-start="0">செமிகண்டக்டர்கள் நவீன எலக்ட்ரானிக்ஸின் முதுகெலும்பாகும், மைக்ரோசிப்கள் முதல் சோலார் பேனல்கள் வரை அனைத்திலும் முக்கிய பங்கு வகிக்கிறது.</p>
+        <!-- Add more Tamil translation <p> elements as needed -->
+    </div>
+
+   
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var images = document.querySelectorAll('.image-container img');
+            var currentImageIndex = 0;
+            var slideshowInterval;
+
+            // Function to show the next image
+            function showNextImage() {
+                images[currentImageIndex].style.display = 'none'; // Hide current image
+                currentImageIndex = (currentImageIndex + 1) % images.length; // Get next image index
+                images[currentImageIndex].style.display = 'block'; // Show next image
+            }
+
+            // Initially show the first image
+            images[currentImageIndex].style.display = 'block';
+
+            // Function to start the slideshow
+            function startSlideshow() {
+                slideshowInterval = setInterval(showNextImage, 3000);
+            }
+
+            // Function to pause the slideshow
+            function pauseSlideshow() {
+                clearInterval(slideshowInterval);
+            }
+
+            // Function to show the previous image
+            function showPrevImage() {
+                images[currentImageIndex].style.display = 'none'; // Hide current image
+                currentImageIndex = (currentImageIndex - 1 + images.length) % images.length; // Get previous image index
+                images[currentImageIndex].style.display = 'block'; // Show previous image
+            }
+
+            // Add event listener to pause button
+            document.getElementById('pauseButton').addEventListener('click', function() {
+                pauseSlideshow();
+            });
+
+            // Add event listener to next button
+            document.getElementById('nextButton').addEventListener('click', function() {
+                showNextImage();
+            });
+
+            // Add event listener to previous button
+            document.getElementById('prevButton').addEventListener('click', function() {
+                showPrevImage();
+            });
+
+            // Start the slideshow
+            startSlideshow();
+        });
+    </script>
+</body>
+</html>
